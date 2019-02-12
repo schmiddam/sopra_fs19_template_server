@@ -8,9 +8,9 @@
   * Building REST services with Spring: http://spring.io/guides/tutorials/bookmarks/
 
 
-## Setup this Template with IDE of choice
+## Setup this Template with your IDE of choice
 
-Note: Feel free to develop in the IDE of your choice (e.g., [Eclipse](http://www.eclipse.org/downloads/)).
+Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/).
 
 1. File -> Open... -> SoPra Server Template
 2. Accept to import the project as a `gradle project`
