@@ -29,8 +29,6 @@ repositories {
     mavenCentral()
 }
 
-mainClassName = "Application"
-
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
