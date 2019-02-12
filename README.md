@@ -8,7 +8,7 @@
   * Building REST services with Spring: http://spring.io/guides/tutorials/bookmarks/
 
 
-## Setup this Template with IntellJ
+## Setup this Template with IDE of choice
 
 Note: Feel free to develop in the IDE of your choice (e.g., [Eclipse](http://www.eclipse.org/downloads/)).
 
