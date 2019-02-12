@@ -27,7 +27,7 @@ Plattform-Prefix:
 * MAC OS X:  ``./gradlew``
 * Windows:  ``./gradlew.bat``
 
-More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
+More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/)).
 
 ### Build
 
