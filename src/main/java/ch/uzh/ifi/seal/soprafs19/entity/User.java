@@ -4,7 +4,7 @@ import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,15 +18,17 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	/* @Column (password = "id") */
-	@GeneratedValue /* (generator = "incrementor") */
+	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable = false) /* (password = "password") */
+	@Column (nullable = false)
 	private String password;
 	
 	@Column(nullable = false, unique = true) 
 	private String username;
+
+	@Column
+	private String birthday;
 	
 	@Column(nullable = false, unique = true) 
 	private String token;
@@ -35,7 +37,7 @@ public class User implements Serializable {
 	private UserStatus status;
 
 	@Column (nullable = false)
-	private String creationDate;
+	private String CreationDate;
 
 	public Long getId() {
 		return id;
@@ -61,13 +63,15 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	public void setBirthday (String birthday) { this.birthday = birthday; }
+
+	public String getBirthday() {return birthday; }
+
 	public String getToken() {
 		return token;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+	public void setToken(String token) { this.token = token; }
 
 	public UserStatus getStatus() {
 		return status;
@@ -77,9 +81,10 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public void setDate (String creationDate) {
-		 this.creationDate = creationDate;
-	}
+	public String getCreationDate () { return CreationDate; }
+
+	public void setCreationDate () {
+		this.CreationDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime()); }
 
 	@Override
 	public boolean equals(Object o) {
