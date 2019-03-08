@@ -46,13 +46,26 @@ public class UserController {
     //TODO: Return location: url<string> if successful;
     //TODO: return reason<string> otherwise
 
-    @GetMapping("/users/username/{username}")
+    @GetMapping("/users/{username}")
     @ResponseStatus(HttpStatus.OK)
     User getId(@PathVariable long id) {
         User user = this.service.getUser(id);
         if (user == null) throw new UserDoesntExist(); //TODO: debug
         else return user;
     }
+
+    @PostMapping("/logcheck")
+    User checkCredentials(@RequestBody User newUser){
+        String username = newUser.getUsername();
+        String password = newUser.getPassword();
+        if ((this.service.getUserByUsername(username)==null)||
+                (!this.service.getUserByUsername(username).getPassword().equals(password)))
+            throw new UserAlreadyExists();
+        else {
+            return this.service.getUserByUsername(username);
+        }
+    }
+
 
     @CrossOrigin
     @PutMapping("/users/{id}")
