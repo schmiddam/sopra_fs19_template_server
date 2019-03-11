@@ -1,10 +1,12 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
+import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 //import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*; //includes all mappings
+
 
 //communicate with db
 
@@ -36,7 +38,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     User createUser(@RequestBody User newUser) {
         String username = newUser.getUsername();
-        if (this.service.getUserByUsername(username) != null) //TODO: debug
+        if (this.service.getUserByUsername(username) != null)
             throw new UserAlreadyExists();
         else {
             return this.service.createUser(newUser);
@@ -46,14 +48,6 @@ public class UserController {
     //TODO: Return location: url<string> if successful;
     //TODO: return reason<string> otherwise
 
-    @GetMapping("/users/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    User getId(@PathVariable long id) {
-        User user = this.service.getUser(id);
-        if (user == null) throw new UserDoesntExist(); //TODO: debug
-        else return user;
-    }
-
     @PostMapping("/logcheck")
     User checkCredentials(@RequestBody User newUser){
         String username = newUser.getUsername();
@@ -62,27 +56,46 @@ public class UserController {
                 (!this.service.getUserByUsername(username).getPassword().equals(password)))
             throw new UserAlreadyExists();
         else {
+            this.service.getUserByUsername(username).setStatus(UserStatus.ONLINE);
+            this.service.saveLogin(this.service.getUserByUsername(username));
             return this.service.getUserByUsername(username);
         }
     }
+    @GetMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    User getId(@PathVariable long id) {
+        User user = this.service.getUser(id);
+        if (user == null) throw new UserDoesntExist(); //TODO: debug
+        else return user;
+    }
 
 
-    @CrossOrigin
     @PutMapping("/users/{id}")
+    @CrossOrigin
+    @ResponseStatus(value=HttpStatus.NO_CONTENT) //204 für PutMapping
     User setId(@PathVariable long id, @RequestBody User updatedUser) {
         User user = this.service.getUser(id);
         if (user == null) throw new UserDoesntExist();
         else return this.service.updateUser(id, updatedUser);
     }
 
-    @GetMapping("/users/{username}")
-    @ResponseStatus(HttpStatus.OK)
-    User getUser(@PathVariable long id) {
-        User foundUser = this.service.getUser(id);
-        if(foundUser == null) {
-            throw new UserDoesntExist();
-        } else {
-            return foundUser;
-        }
+    @GetMapping("/logout/{id}")
+    @CrossOrigin
+    //@ResponseStatus(value=HttpStatus.NO_CONTENT) //204 für PutMapping
+    User setIdForLogout(@PathVariable Long id) {
+        User user = this.service.getUser(id);
+        if (user == null) throw new UserDoesntExist();
+        else user.setStatus(UserStatus.OFFLINE);
+        this.service.saveLogout(user);
+        return user;
+    }
+
+    @PostMapping("/logout/{id}")
+    @CrossOrigin
+    User logOutUser(@PathVariable long id) {
+        User user = this.service.getUser(id);
+        user.setStatus(UserStatus.OFFLINE);
+        this.service.saveLogout(user);
+        return user;
     }
 }

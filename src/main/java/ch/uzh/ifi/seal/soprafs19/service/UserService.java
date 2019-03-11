@@ -28,7 +28,6 @@ public class UserService {
 
     // ALWAYS adds the user and returns all users
     public Iterable<User> getUsers() {
-
         return this.userRepository.findAll();
     }
 
@@ -38,6 +37,14 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    public void saveLogin(User user){
+        this.userRepository.save(user);
+    }
+
+    public void saveLogout(User user){
+        this.userRepository.save(user);
     }
 
     public void deleteUser(long id){
@@ -65,26 +72,16 @@ public class UserService {
         User oldUser = getUser(id);
         String username = updatedUser.getUsername();
 
-        if(username != oldUser.getUsername() && updatedUser.getUsername() != null) {
+        if(!username.equals(oldUser.getUsername())  && updatedUser.getUsername() != null) {
             oldUser.setUsername(username);
         }
 
-        String password = updatedUser.getPassword();
-        if(password != oldUser.getPassword() && updatedUser.getPassword() != null) {
-            oldUser.setPassword(password);
-        }
-        UserStatus status = updatedUser.getStatus();
-        if(status != oldUser.getStatus() && updatedUser.getStatus() != null) {
-            oldUser.setStatus(status);
-        }
-
         String birthday = updatedUser.getBirthday();
-        if (birthday != oldUser.getBirthday() && updatedUser.getBirthday() != null) {
+        if (!birthday.equals(oldUser.getBirthday()) && updatedUser.getBirthday() != null) {
             oldUser.setBirthday(birthday);
         }
 
         this.userRepository.save(oldUser); //save the changes
-
         return oldUser;
     }
 }
