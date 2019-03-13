@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ public class User implements Serializable {
 	private UserStatus status;
 
 	@Column (nullable = false)
-	private String CreationDate;
+	private String creationDate;
 
 	public Long getId() {
 		return id;
@@ -87,10 +88,14 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public String getCreationDate () { return CreationDate; }
-
 	public void setCreationDate () {
-		this.CreationDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime()); }
+		Date today = new Date();
+		SimpleDateFormat todayFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		this.creationDate = todayFormat.format(today);
+		//this.creationDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+	}
+
+	public String getCreationDate() { return creationDate; }
 
 	@Override
 	public boolean equals(Object o) {

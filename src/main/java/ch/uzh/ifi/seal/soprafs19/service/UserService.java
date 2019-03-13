@@ -46,16 +46,15 @@ public class UserService {
     public void saveLogout(User user){
         this.userRepository.save(user);
     }
-
+    /*
     public void deleteUser(long id){
         User user = this.userRepository.findById(id);
-        // TODO: check if this works like this
         user.setStatus(UserStatus.OFFLINE);
         this.userRepository.delete(user);
     }
+    */
 
-
-    public User createUser(User newUser) { // TODO: must usernameAlreadyExists be checked here or in frontend?
+    public User createUser(User newUser) {
         /**if (userRepository.existsUserByUsername(newUser.getUsername())){
             throw new ArithmeticException("Username already exists");
         } else {**/
@@ -68,7 +67,7 @@ public class UserService {
     }
 
     public User updateUser(long id, User updatedUser){
-        //TODO: simplify using built in .update function
+
         User oldUser = getUser(id);
         String username = updatedUser.getUsername();
 
